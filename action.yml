@@ -1,5 +1,5 @@
 name: 'Cloudways API Git Action'
-description: 'Github Action to deploy your project to Cloudways.'
+description: 'Cloudways API GitHub action package allows you to use all Cloudways APIs.'
 branding:
   icon: 'cloud-snow'
   color: 'blue'
