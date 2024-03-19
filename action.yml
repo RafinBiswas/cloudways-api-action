@@ -1,0 +1,37 @@
+name: 'Cloudways API Git Pull'
+description: 'Github Action to deploy your project to Cloudways.'
+branding:
+  icon: 'arrow-up-right'
+  color: 'blue'
+inputs:
+  email:
+    description: 'Cloudways account email'
+    required: true
+  api-key:
+    description: 'Cloudways API key'
+    required: true
+  api-version:
+    description: 'Cloudways API version(Ex: v1)'
+    required: false
+    default: 'v1'
+  api-path:
+    description: 'Cloudways API path(Ex: /cloudways/path)'
+    required: true
+  request-method:
+    description: 'Cloudways API request method(GET or POST or PUT or DELETE)'
+    required: false
+    default: 'POST'
+  request-body:
+    description: 'Cloudways API request body(EX: key:value) multiline supported'
+    required: false
+    default: ''
+  token-required:
+    description: 'Cloudways API request token required?'
+    required: false
+    default: 'true'
+outputs:
+  response:
+    description: 'The Cloudways API Request Response'
+runs:
+  using: 'node20'
+  main: 'dist/index.js'
