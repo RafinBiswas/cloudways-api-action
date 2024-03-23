@@ -260,6 +260,15 @@ async function run() {
 		if (!response.ok) {
 			throw new Error(`The Cloudways API Request Failed: ${ responseJson }`);
 		}
+
+        // core.exportVariable('cwResponse', responseJson);
+        core.setOutput('response', responseJson);
+
+        if (core.isDebug()) {
+            core.info(`The Cloudways API Request Success: ${ responseJson }`);
+        } else {
+            core.info('The Cloudways API Request Successfully executed');
+        }
     } catch (error) {
         if (core.isDebug()) {
             core.setFailed(error.message + '. ' + (error.stack || ''));
@@ -267,14 +276,6 @@ async function run() {
             core.setFailed(error.message + '.');
         }
     }
-
-    if (core.isDebug()) {
-        core.info(`The Cloudways API Request Success: ${ responseJson }`);
-    } else {
-        core.info('The Cloudways API Request Successfully executed');
-    }
-    // core.exportVariable('cwResponse', responseJson);
-    core.setOutput('response', responseJson);
 }
 
 run();
