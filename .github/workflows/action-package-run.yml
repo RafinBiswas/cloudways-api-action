@@ -1,0 +1,32 @@
+name: Action Package Run
+
+on:
+  push:
+    branches:
+      - 'runner-**'
+      - 'feature-**'
+      - 'runner/**'
+      - 'feature/**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - uses: ./
+      with:
+        email: ${{ secrets.CLOUDWAYS_EMAIL }}
+        api-key: ${{ secrets.CLOUDWAYS_API_KEY }}
+        api-version: "v1"
+        api-path: "/server"
+        request-method: "GET"
+        request-body: ""
+        token-required: true
+
+    - name: Response
+      # env:
+        # cwResponse: ""
+      run: |
+        echo "cwResponse: $cwResponse"
