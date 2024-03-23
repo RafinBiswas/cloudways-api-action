@@ -32,7 +32,7 @@ jobs:
         api-key: ${{ secrets.CLOUDWAYS_API_KEY }}
         # api-version: "v1"
         api-path: "/server_sizes"
-        # request-method: "GET"
+        request-method: "GET"
         # request-body: ""
         token-required: true
 
