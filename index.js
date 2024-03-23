@@ -54,6 +54,13 @@ const supportedRequestMethods = ['GET', 'POST', 'PUT', 'DELETE'];
  */
 const supportedApis = [
     '/providers',
+    '/regions',
+    '/server_sizes',
+    '/apps',
+    '/backup-frequencies',
+    '/countries',
+    '/monitor_durations',
+    '/monitor_targets',
 ];
 
 /**
@@ -253,7 +260,11 @@ async function run() {
         core.exportVariable('cwResponse', responseJson);
         core.setOutput('response', responseJson);
     } catch (error) {
-        core.setFailed(error.message + '. ' + (error.stack || ''));
+        if (core.isDebug()) {
+            core.setFailed(error.message + '. ' + (error.stack || ''));
+        } else {
+            core.setFailed(error.message + '.');
+        }
     }
 }
 
