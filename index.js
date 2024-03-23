@@ -53,6 +53,7 @@ const supportedRequestMethods = ['GET', 'POST', 'PUT', 'DELETE'];
  * @type {Array<String>}
  */
 const supportedApis = [
+    // Lists : Get Possible Values for certain call parameters
     '/providers',
     '/regions',
     '/server_sizes',
@@ -61,6 +62,9 @@ const supportedApis = [
     '/countries',
     '/monitor_durations',
     '/monitor_targets',
+
+    // Server : Server Add, upgrade or delete
+    '/server',
 ];
 
 /**
