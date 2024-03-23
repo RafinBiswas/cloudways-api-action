@@ -31,7 +31,7 @@ jobs:
         email: ${{ secrets.CLOUDWAYS_EMAIL }}
         api-key: ${{ secrets.CLOUDWAYS_API_KEY }}
         api-version: "v1"
-        api-path: "/server"
+        api-path: "/providers"
         request-method: "GET"
         request-body: ""
         token-required: true
