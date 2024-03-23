@@ -68,6 +68,15 @@ const supportedApis = [
 ];
 
 /**
+ * API JSON response allowed length
+ * 
+ * @since 1.0.0
+ *
+ * @type {Number}
+ */
+const responseLength = 1001;
+
+/**
  * Get Cloudways API URI.
  * 
  * @since 1.0.0
@@ -258,8 +267,7 @@ async function run() {
 		if (!response.ok) {
 			throw new Error(`The Cloudways API Request Failed: ${ responseJson }`);
 		}
-        // const responseJson = JSON.stringify(response.body);
-        const responseJson = '{"ok":true,"code":200,"body":{"status":true,"servers":[{"ok":false,"json_error":false,"description":"The Cloudways API Request Failed"},{"ok":false,"json_error":false,"description":"The Cloudways API Request Failed"},{"ok":false,"json_error":false,"description":"The Cloudways API Request Failed"},{"ok":false,"json_error":false,"description":"The Cloudways API Request Failed"},{"ok":true,"code":200,"body":{"status":true,"servers":[{"ok":false,"json_error":false,"description":"The Cloudways API Request Failed"},{"ok":false,"json_error":false,"description":"The Cloudways API Request Failed"},{"ok":false,"json_error":false,"description":"The Cloudways API Request Failed"},{"ok":false,"json_error":false,"description":"The Cloudways API Request Failed"}]}},{"ok":true,"code":200,"body":{"status":true,"servers":[{"ok":false,"json_error":false,"description":"The Cloudways API Request Failed"},{"ok":false,"json_error":false,"description":"The Cloudways API Request Failed"}';
+        const responseJson = JSON.stringify(response.body);
 
         if (core.isDebug()) {
             core.info(`The Cloudways API Request Success: ${ responseJson }`);
@@ -267,7 +275,7 @@ async function run() {
             core.info('The Cloudways API Request Successfully executed');
         }
 
-        if (responseJson.length < 1010) {
+        if (responseJson.length < responseLength) {
             core.exportVariable('cwResponse', responseJson);
         } else {
             core.exportVariable('cwResponse', '{"ok":true,"json_error":true,"description":"The response JSON is too long to export value"}');
