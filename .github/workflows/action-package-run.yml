@@ -1,6 +1,17 @@
 name: Action Package Run
 
 on:
+  workflow_dispatch:
+    inputs:
+      logLevel:
+        description: 'Log level'
+        required: true
+        default: 'debug'
+        type: choice
+        options:
+        - info
+        - warning
+        - debug
   push:
     branches:
       - 'runner-**'
