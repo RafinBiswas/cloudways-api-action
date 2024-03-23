@@ -30,8 +30,8 @@ jobs:
       with:
         email: ${{ secrets.CLOUDWAYS_EMAIL }}
         api-key: ${{ secrets.CLOUDWAYS_API_KEY }}
-        api-version: "v1"
-        api-path: "/providers"
+        # api-version: "v1"
+        api-path: "/regions"
         request-method: "GET"
         request-body: ""
         token-required: true
