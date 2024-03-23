@@ -46,6 +46,17 @@ const supportedApiVersions = ['v1'];
 const supportedRequestMethods = ['GET', 'POST', 'PUT', 'DELETE'];
 
 /**
+ * Supported API endpoints.
+ *
+ * @since 1.0.0
+ *
+ * @type {Array<String>}
+ */
+const supportedApis = [
+    '/providers',
+];
+
+/**
  * Get Cloudways API URI.
  * 
  * @since 1.0.0
@@ -137,6 +148,18 @@ async function getOauthToken() {
 }
 
 /**
+ * Check the API is allowed to execute
+ * 
+ * @since 1.0.0
+ * 
+ * @param {String} path The API request path
+ * @returns {Boolean}
+ */
+function isValidPath(path) {
+    return supportedApis.includes(path);
+}
+
+/**
  * Get request options
  * 
  * @since 1.0.0
@@ -182,6 +205,10 @@ async function getRequestOptions(params) {
  */
 async function requestApi() {
     const apiPath = core.getInput('api-path');
+    if (!isValidPath(apiPath)) {
+        throw new Error(`The request API "${ apiPath }" not allowed`);
+    }
+
     const requestBody = core.getMultilineInput('request-body');
     const bodyParams = {};
 
