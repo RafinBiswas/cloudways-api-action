@@ -273,7 +273,7 @@ async function run() {
     } else {
         core.info('The Cloudways API Request Successfully executed');
     }
-    core.exportVariable('cwResponse', responseJson);
+    // core.exportVariable('cwResponse', responseJson);
     core.setOutput('response', responseJson);
 }
 
