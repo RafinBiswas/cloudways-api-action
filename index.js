@@ -261,15 +261,21 @@ async function run() {
 			throw new Error(`The Cloudways API Request Failed: ${ responseJson }`);
 		}
 
-        core.exportVariable('cwResponse', responseJson);
-        core.setOutput('response', responseJson);
-
         if (core.isDebug()) {
             core.info(`The Cloudways API Request Success: ${ responseJson }`);
         } else {
             core.info('The Cloudways API Request Successfully executed');
         }
+
+        if (responseJson.length < 1010) {
+            core.exportVariable('cwResponse', responseJson);
+        } else {
+            core.exportVariable('cwResponse', '{"success":true,"json_error":true,"description":"The response JSON is too long to export value"}');
+        }
+        core.setOutput('response', responseJson);
     } catch (error) {
+        core.exportVariable('cwResponse', '{"success":false,"json_error":false,"description":"The Cloudways API Request Failed"}');
+
         if (core.isDebug()) {
             core.setFailed(error.message + '. ' + (error.stack || ''));
         } else {
