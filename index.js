@@ -5,7 +5,8 @@
  * 
  * @type {any}
  */
-const core = require('@actions/core');
+// const core = require('@actions/core');
+import * as core from '@actions/core';
 
 /**
  * Import/Require statement for node-fetch
@@ -14,7 +15,8 @@ const core = require('@actions/core');
  * 
  * @type {any}
  */
-const fetch = require('node-fetch');
+// const fetch = require('node-fetch');
+import fetch from "node-fetch";
 
 /**
  * The Cloudways API URI.
@@ -23,7 +25,7 @@ const fetch = require('node-fetch');
  *
  * @type {String}
  */
-const apiUri = '';
+var apiUri = '';
 
 /**
  * API supported versions.
@@ -57,7 +59,7 @@ function getApiUri() {
 
     const apiVersion = core.getInput('api-version').toLowerCase();
     if (!supportedApiVersions.includes(apiVersion)) {
-        throw new Error('The API version does not exist.');
+        throw new Error('The API version does not exist');
     }
 
     return apiUri = 'https://api.cloudways.com/api/' + apiVersion;
@@ -73,7 +75,7 @@ function getApiUri() {
 function getRequestMethod() {
     const requestMethod = core.getInput('request-method').toUpperCase();
     if (!supportedRequestMethods.includes(requestMethod)) {
-        throw new Error(`The API request method [${ requestMethod }] not allowed.`);
+        throw new Error(`The API request method [${ requestMethod }] not allowed`);
     }
 
     return requestMethod;
@@ -93,14 +95,14 @@ function getRequestMethod() {
  */
 async function getOauthToken() {
     const body = {
-        api_key: core.getInput('api-key'),
         email: core.getInput('email'),
+        api_key: core.getInput('api-key')
     };
 
     const options = {
         method: 'POST',
         body: JSON.stringify(body),
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        headers: { 'Content-Type': 'application/json' },
     };
 
     /**
@@ -126,7 +128,7 @@ async function getOauthToken() {
     }
 
     if (!response.access_token || response.access_token === '') {
-        throw new Error('The access token does not exist.');
+        throw new Error('The access token does not exist');
     }
 
     core.info('Successfully authenticated with Cloudways API');
@@ -151,11 +153,13 @@ async function getRequestOptions(params) {
         }
     };
 
+    if (options.method == 'GET') {
+        delete options.body;
+    }
+
     const accessTokenRequred = core.getBooleanInput('token-required');
     if (accessTokenRequred) {
         let accessToken = await getOauthToken();
-		core.setSecret('accessToken');
-
         options.headers['Authorization'] = `Bearer ${ accessToken }`;
     }
 
@@ -213,15 +217,16 @@ async function requestApi() {
 async function run() {
     try {
         const response = await requestApi();
-        responseJson = JSON.stringify(response);
+        const responseJson = JSON.stringify(response);
 		if (!response.ok) {
 			throw new Error(`The Cloudways API Request Failed: ${ responseJson }`);
 		}
 
+        core.info(`The Cloudways API Request Success: ${ responseJson }`);
         core.exportVariable('cwResponse', responseJson);
         core.setOutput('response', responseJson);
     } catch (error) {
-        core.setFailed(error.message);
+        core.setFailed(error.message + '. ' + (error.stack || ''));
     }
 }
 
