@@ -261,7 +261,7 @@ async function run() {
 			throw new Error(`The Cloudways API Request Failed: ${ responseJson }`);
 		}
 
-        // core.exportVariable('cwResponse', responseJson);
+        core.exportVariable('cwResponse', responseJson);
         core.setOutput('response', responseJson);
 
         if (core.isDebug()) {
