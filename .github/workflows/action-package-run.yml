@@ -40,4 +40,4 @@ jobs:
       # env:
         # cwResponse: ""
       run: |
-        echo "cwResponse: cwResponse"
+        echo "cwResponse: $cwResponse"

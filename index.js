@@ -255,11 +255,11 @@ async function requestApi() {
 async function run() {
     try {
         const response = await requestApi();
-        const responseJson = JSON.stringify(response);
-
 		if (!response.ok) {
 			throw new Error(`The Cloudways API Request Failed: ${ responseJson }`);
 		}
+        // const responseJson = JSON.stringify(response.body);
+        const responseJson = '{"ok":true,"code":200,"body":{"status":true,"servers":[{"ok":false,"json_error":false,"description":"The Cloudways API Request Failed"},{"ok":false,"json_error":false,"description":"The Cloudways API Request Failed"},{"ok":false,"json_error":false,"description":"The Cloudways API Request Failed"},{"ok":false,"json_error":false,"description":"The Cloudways API Request Failed"},{"ok":true,"code":200,"body":{"status":true,"servers":[{"ok":false,"json_error":false,"description":"The Cloudways API Request Failed"},{"ok":false,"json_error":false,"description":"The Cloudways API Request Failed"},{"ok":false,"json_error":false,"description":"The Cloudways API Request Failed"},{"ok":false,"json_error":false,"description":"The Cloudways API Request Failed"}]}},{"ok":true,"code":200,"body":{"status":true,"servers":[{"ok":false,"json_error":false,"description":"The Cloudways API Request Failed"},{"ok":false,"json_error":false,"description":"The Cloudways API Request Failed"},{"ok":false,"json_error":false,"description":"The Cloudways API Request Failed"}';
 
         if (core.isDebug()) {
             core.info(`The Cloudways API Request Success: ${ responseJson }`);
@@ -270,11 +270,11 @@ async function run() {
         if (responseJson.length < 1010) {
             core.exportVariable('cwResponse', responseJson);
         } else {
-            core.exportVariable('cwResponse', '{"success":true,"json_error":true,"description":"The response JSON is too long to export value"}');
+            core.exportVariable('cwResponse', '{"ok":true,"json_error":true,"description":"The response JSON is too long to export value"}');
         }
         core.setOutput('response', responseJson);
     } catch (error) {
-        core.exportVariable('cwResponse', '{"success":false,"json_error":false,"description":"The Cloudways API Request Failed"}');
+        core.exportVariable('cwResponse', '{"ok":false,"json_error":false,"description":"The Cloudways API Request Failed"}');
 
         if (core.isDebug()) {
             core.setFailed(error.message + '. ' + (error.stack || ''));
