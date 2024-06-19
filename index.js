@@ -53,7 +53,7 @@ const supportedApiVersions = ['v1'];
  *
  * @type {Array<String>}
  */
-const supportedRequestMethods = ['GET', 'POST', 'PUT', 'DELETE'];
+const supportedRequestMethods = ['GET', 'POST', 'PUT'/* , 'DELETE' */];
 
 /**
  * Supported API endpoints.
@@ -76,29 +76,29 @@ const supportedApis = [
     '/monitor_targets',
 
     // Server : Server Add, upgrade or delete
-    '/server',
-    '/server/cloneServer',
+    // '/server',
+    // '/server/cloneServer',
     '/server/stop',
     '/server/start',
     '/server/restart',
-    '/server/scaleServer',
-    '/server/scaleVolume',
+    // '/server/scaleServer',
+    // '/server/scaleVolume',
     '/server/[0-9]+/diskUsage',
     '/server/[0-9]+',
     '/server/manage/getMaintenanceWinSettings',
     '/server/manage/postMaintenanceWinSettings',
-    '/server/attachStorage',
-    '/server/scaleStorage',
+    // '/server/attachStorage',
+    // '/server/scaleStorage',
 
     // Server Management : Backup, Settings and Master Credentials
     '/server/manage/backup',
     '/server/manage/snapshotFrequency',
     '/server/manage/backupSettings',
     '/server/manage/remove_local_backup',
-    '/server/manage/package',
+    // '/server/manage/package',
     '/server/manage/settings',
-    '/server/manage/masterUsername',
-    '/server/manage/masterPassword',
+    // '/server/manage/masterUsername',
+    // '/server/manage/masterPassword',
     '/server/disk',
     '/server/disk/[0-9]+',
     '/server/disk/cleanup',
@@ -110,12 +110,12 @@ const supportedApis = [
     '/service/appVarnish',
 
     // Application : Add, clone and delete applications
-    '/app',
+    // '/app',
     '/app/[0-9]+',
-    '/app/clone',
-    '/app/cloneToOtherServer',
-    '/staging/app/cloneApp',
-    '/staging/app/cloneToOtherServer',
+    // '/app/clone',
+    // '/app/cloneToOtherServer',
+    // '/staging/app/cloneApp',
+    // '/staging/app/cloneToOtherServer',
     '/app/malcare',
     '/app/malcare/traffic',
     '/app/malcare/traffic/summary',
@@ -130,10 +130,10 @@ const supportedApis = [
     '/app/malcare/whitelist_bot',
 
     // Authentication : API Authentication related calls
-    '/oauth/access_token', // Disable it
+    // '/oauth/access_token', // Disable it
 
     // Projects : Manage your projects
-    '/project',
+    // '/project',
     '/project/[0-9]+',
 
     // Git : Manage Git Deployment
@@ -149,9 +149,9 @@ const supportedApis = [
     '/alerts/[0-9]+',
     '/alert/markAsRead/[0-9]+',
     '/alert/markAllRead/',
-    '/integrations',
-    '/integrations/create',
-    '/integrations/[0-9]+',
+    // '/integrations',
+    // '/integrations/create',
+    // '/integrations/[0-9]+',
 
     // App Management : Manage your application
     '/app/manage/cname',
@@ -161,20 +161,20 @@ const supportedApis = [
     '/app/manage/backup',
     '/app/manage/aliases',
     '/app/manage/cronList',
-    '/app/manage/dbPassword',
-    '/app/manage/symlink',
-    '/app/manage/webroot',
+    // '/app/manage/dbPassword',
+    // '/app/manage/symlink',
+    // '/app/manage/webroot',
     '/app/cors_header',
     '/app/manage/webP',
     '/app/manage/enforce_https',
     '/app/manage/reset_permissions',
     '/app/manage/fpm_setting',
     '/app/manage/varnish_setting',
-    '/app/creds',
-    '/app/creds/[0-9]+',
-    '/app/getAppSshPerms',
-    '/app/updateAppSshPerms',
-    '/app/getApplicationAccess',
+    // '/app/creds',
+    // '/app/creds/[0-9]+',
+    // '/app/getAppSshPerms',
+    // '/app/updateAppSshPerms',
+    // '/app/getApplicationAccess',
     '/app/get_settings_value',
     '/app/state',
     '/app/manage/geo_ip_header',
@@ -183,30 +183,30 @@ const supportedApis = [
     '/app/manage/ignore/query_string',
     '/app/manage/php_direct_execution',
     '/app/manage/cron_setting',
-    '/app/creds/changeAdminCredentials',
+    // '/app/creds/changeAdminCredentials',
     '/app/cache/purge',
 
     // Security : Manage Security settings
-    '/security/ownSSL',
-    '/security/removeCustomSSL',
+    // '/security/ownSSL',
+    // '/security/removeCustomSSL',
     '/security/lets_encrypt_install',
     '/security/createDNS',
     '/security/verifyDNS',
     '/security/lets_encrypt_manual_renew',
     '/security/lets_encrypt_auto',
-    '/security/lets_encrypt_revoke',
+    // '/security/lets_encrypt_revoke',
     '/security/whitelistedIpsMysql',
     '/security/whitelisted',
     '/security/isBlacklisted',
-    '/security/siab',
-    '/security/adminer',
+    // '/security/siab',
+    // '/security/adminer',
 
     // Operation : Status of the operations running in background
     '/operation/[0-9]+',
 
     // SSH Keys Management : Manage your server & application ssh keys
-    '/ssh_key',
-    '/ssh_key/[0-9]+',
+    // '/ssh_key',
+    // '/ssh_key/[0-9]+',
 
     // ADD-ONS Management : Manage your Add-ons
     '/addon',
@@ -216,14 +216,14 @@ const supportedApis = [
     '/addon/activateOnServer',
     '/addon/deactivateOnServer',
     '/addon/request',
-    '/addon/elastic/domains',
-    '/addon/elastic/verify_domain',
-    '/addon/elastic/domain',
+    // '/addon/elastic/domains',
+    // '/addon/elastic/verify_domain',
+    // '/addon/elastic/domain',
 
     // Transfer Server : Transfer server to other cloudways account
-    '/server_transfer/request',
-    '/server_transfer/status',
-    '/server_transfer/cancel',
+    // '/server_transfer/request',
+    // '/server_transfer/status',
+    // '/server_transfer/cancel',
 
     // Supervisor : Manage Supervisor Queues
     '/app/supervisor',
@@ -232,16 +232,16 @@ const supportedApis = [
     '/supervisor/queue/restart',
 
     // Cloudflare : Enterprise
-    '/app/cloudflareCdn',
-    '/app/cloudflareCdn/fetchTXT',
-    '/app/cloudflareCdn/delete',
-    '/app/cloudflareCdn/transferDomain',
+    // '/app/cloudflareCdn',
+    // '/app/cloudflareCdn/fetchTXT',
+    // '/app/cloudflareCdn/delete',
+    // '/app/cloudflareCdn/transferDomain',
     '/app/cloudflareCdn/purgeDomain',
-    '/app/cloudflareCdn/getDnsQuery',
-    '/app/cloudflareCdn/verifyTxtRecords',
-    '/app/cloudflareCdn/checkFPCStatus',
-    '/app/cloudflareCdn/deployFPC',
-    '/app/cloudflareCdn/appSetting',
+    // '/app/cloudflareCdn/getDnsQuery',
+    // '/app/cloudflareCdn/verifyTxtRecords',
+    // '/app/cloudflareCdn/checkFPCStatus',
+    // '/app/cloudflareCdn/deployFPC',
+    // '/app/cloudflareCdn/appSetting',
     '/app/cloudflare/[0-9]+/analytics',
     '/app/cloudflare/[0-9]+/security',
 
@@ -262,7 +262,7 @@ const supportedApis = [
     '/staging/auth/status',
     '/staging/htaccessUpdate',
     '/staging/app/logs',
-    '/staging/app/deleteBackup',
+    // '/staging/app/deleteBackup',
 
     // Monitoring/Analytics
     '/server/monitor/summary',
@@ -277,18 +277,18 @@ const supportedApis = [
     '/app/analytics/cron',
 
     // Team Member
-    '/member',
-    '/member/[0-9]+',
+    // '/member',
+    // '/member/[0-9]+',
 
     // Application Vulnerability
     '/app/vulnerabilities/[0-9]+',
     '/app/vulnerabilities/[0-9]+/refresh',
 
     // DNS Made Easy
-    '/dme/domains',
+    // '/dme/domains',
     '/dme/domains/[a-zA-Z0-9-]+/status',
-    '/dme/domains/[a-zA-Z0-9-]+/records',
-    '/dme/domains/[a-zA-Z0-9-]+/records/[a-zA-Z0-9-]+',
+    // '/dme/domains/[a-zA-Z0-9-]+/records',
+    // '/dme/domains/[a-zA-Z0-9-]+/records/[a-zA-Z0-9-]+',
     '/dme/domains/[a-zA-Z0-9-]+/usage'
 ];
 
