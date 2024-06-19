@@ -29,6 +29,14 @@ inputs:
     description: 'Cloudways API request token required?'
     required: false
     default: 'true'
+  request-response:
+    description: 'Cloudways API request reusable response(EX: key:value) multiline supported'
+    required: false
+    default: ''
+  prefix:
+    description: 'Action prefix to ensure unique step'
+    required: false
+    default: 'cw_'
 outputs:
   response:
     description: 'The Cloudways API Request Response'

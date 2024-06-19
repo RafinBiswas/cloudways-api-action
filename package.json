@@ -4,7 +4,8 @@
     "description": "Github Action to execute Cloudways APIs.",
     "main": "index.js",
     "scripts": {
-        "prepare": "ncc build index.js -m --license licenses.txt"
+        "prepare": "ncc build index.js -m --license licenses.txt",
+        "watch": "ncc build index.js --license licenses.txt --watch"
     },
     "keywords": [
         "Cloudways",

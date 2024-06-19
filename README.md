@@ -22,27 +22,34 @@ Instead, you must use GitHub Secrets for your repository with the following name
 
 - `CLOUDWAYS_EMAIL`
 - `CLOUDWAYS_API_KEY`
-- `CLOUDWAYS_API_VERSION`     - Optional
+- `CLOUDWAYS_API_VERSION`     - Optional - Default is "v1"
 - `CLOUDWAYS_API_PATH`
-- `CLOUDWAYS_REQUEST_METHOD`  - Optional
-- `CLOUDWAYS_REQUEST_BODY`    - Optional
-- `CLOUDWAYS_TOKEN_REQUIRED`  - Optional
+- `CLOUDWAYS_REQUEST_METHOD`  - Optional - Default is "POST"
+- `CLOUDWAYS_REQUEST_BODY`    - Optional - Default is ""
+- `CLOUDWAYS_TOKEN_REQUIRED`  - Optional - Default is "true"
+- `CLOUDWAYS_REQUEST_RESPONSE`- Optional - Default is ""
+- `CLOUDWAYS_PREFIX`          - Optional - Default is "cw_"
 
 Follow the exact secrets names in your Workflow file, so you can identify those quickly.
 
 [GitHub Secrets are set in your repository settings](https://docs.github.com/es/actions/reference/encrypted-secrets).
 
-## Required Inputs
+## Action Inputs
 
-You must provide all of these inputs in your Workflow file.
+You must provide all of these inputs except optional inputs in your Workflow file.
 
 - `email`           - Cloudways account email
 - `api-key`         - Cloudways API key
-- `api-version`     - Cloudways API version(Ex: v1)
+- `api-version`     - Cloudways API version(Ex: v1) (**Optional**)
 - `api-path`        - Cloudways API path(Ex: /cloudways/path)
-- `request-method`  - Cloudways API request method(GET or POST or PUT or DELETE)
-- `request-body`    - Cloudways API request body(EX: key:value) multiline supported
-- `token-required`  - Cloudways API request token required?
+- `request-method`  - Cloudways API request method(GET or POST or PUT or DELETE) (**Optional**)
+- `request-body`    - Cloudways API request body(EX: key:value, key.index:value) multiline supported (**Optional**)
+- `token-required`  - Cloudways API request token required? (**Optional**)
+- `request-response`- Cloudways API request response(EX: key:value, key.index:value) multiline supported (**Optional**)
+- `prefix`          - Action prefix to ensure unique step (**Optional**)
+
+> Saved export variable name is "${{ secrets.CLOUDWAYS_PREFIX }}${{ secrets.CLOUDWAYS_REQUEST_RESPONSE }}"
+> Ex: cw_data. To access the value use ${{ env.cw_data }}.
 
 ## Usage
 
@@ -55,12 +62,19 @@ name: Cloudways API Execute Via Git Action
 
 on:
   push:
-    tags:
-      - "*"
+    branches:
+      - 'feature-**'
+      - 'feature/**'
+  pull_request:
+    branches:
+      - 'main'
+      - 'stage'
+    types:
+      - closed
 
 jobs:
-  tag:
-    name: New Tag
+  cloudways-deployment:
+    name: Cloudways Deploymen
 
     runs-on: ubuntu-latest
 
@@ -69,15 +83,46 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Cloudways API Git Action
-        uses: roelmagdaleno/cloudways-api-git-pull-action@stable
+        uses: RafinBiswas/cloudways-api-action@stable
         with:
           email: ${{ secrets.CLOUDWAYS_EMAIL }}
           api-key: ${{ secrets.CLOUDWAYS_API_KEY }}
           api-version: ${{ secrets.CLOUDWAYS_API_VERSION }}
           api-path: ${{ secrets.CLOUDWAYS_API_PATH }}
           request-method: ${{ secrets.CLOUDWAYS_REQUEST_METHOD }}
-          request-body: ${{ secrets.CLOUDWAYS_REQUEST_BODY }}
+          request-body: |
+            ${{ secrets.CLOUDWAYS_REQUEST_BODY }}
           token-required: ${{ secrets.CLOUDWAYS_TOKEN_REQUIRED }}
+          request-response: |
+            ${{ secrets.CLOUDWAYS_REQUEST_RESPONSE }}
+          prefix: ${{ secrets.CLOUDWAYS_PREFIX }}
+
+      - uses: Get Cloudways Server SFTP Whitelisted IPs
+        uses: RafinBiswas/cloudways-api-action@stable
+        with:
+          email: ${{ secrets.CLOUDWAYS_EMAIL }}
+          api-key: ${{ secrets.CLOUDWAYS_API_KEY }}
+          api-path: "/security/whitelisted"
+          request-method: "GET"
+          request-body: |
+            server_id:${{ secrets.CLOUDWAYS_SERVER_ID }}
+          request-response: |
+            data.ip_list:[]
+          prefix: "cwsl_"
+
+      - uses: Set Cloudways Server SFTP Whitelisted IPs
+        uses: RafinBiswas/cloudways-api-action@stable
+        with:
+          email: ${{ secrets.CLOUDWAYS_EMAIL }}
+          api-key: ${{ secrets.CLOUDWAYS_API_KEY }}
+          api-path: "/security/whitelisted"
+          request-body: |
+            server_id:${{ secrets.CLOUDWAYS_SERVER_ID }}
+            tab:sftp
+            ip:${{ env.cwsl_data_ip_list }}
+            type:sftp
+            ipPolicy:block_all
+
 ```
 
 ## License
