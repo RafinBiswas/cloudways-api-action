@@ -97,7 +97,7 @@ jobs:
             ${{ secrets.CLOUDWAYS_REQUEST_RESPONSE }}
           prefix: ${{ secrets.CLOUDWAYS_PREFIX }}
 
-      - uses: Get Cloudways Server SFTP Whitelisted IPs
+      - name: Get Cloudways Server SFTP Whitelisted IPs
         uses: RafinBiswas/cloudways-api-action@stable
         with:
           email: ${{ secrets.CLOUDWAYS_EMAIL }}
@@ -110,7 +110,7 @@ jobs:
             data.ip_list:[]
           prefix: "cwsl_"
 
-      - uses: Set Cloudways Server SFTP Whitelisted IPs
+      - name: Set Cloudways Server SFTP Whitelisted IPs
         uses: RafinBiswas/cloudways-api-action@stable
         with:
           email: ${{ secrets.CLOUDWAYS_EMAIL }}
