@@ -1,0 +1,89 @@
+name: Action Package Run
+
+on:
+  workflow_dispatch:
+    inputs:
+      logLevel:
+        description: 'Log level'
+        required: true
+        default: 'debug'
+        type: choice
+        options:
+        - info
+        - warning
+        - debug
+  push:
+    branches:
+      - 'dev'
+      - 'stage'
+      - 'feature-**'
+      - 'feature/**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - uses: ./
+      with:
+        email: ${{ secrets.CLOUDWAYS_EMAIL }}
+        api-key: ${{ secrets.CLOUDWAYS_API_KEY }}
+        api-path: "/security/whitelisted"
+        request-method: "GET"
+        request-body: |
+          server_id:${{ secrets.CLOUDWAYS_SERVER_ID }}
+        request-response: |
+          data.ip_list:[]
+        prefix: "cwsl_"
+
+    - uses: ./
+      with:
+        email: ${{ secrets.CLOUDWAYS_EMAIL }}
+        api-key: ${{ secrets.CLOUDWAYS_API_KEY }}
+        api-path: "/security/whitelisted"
+        request-body: |
+          server_id:${{ secrets.CLOUDWAYS_SERVER_ID }}
+          tab:sftp
+          type:sftp
+          ipPolicy:allow_all
+
+    - uses: ./
+      with:
+        email: ${{ secrets.CLOUDWAYS_EMAIL }}
+        api-key: ${{ secrets.CLOUDWAYS_API_KEY }}
+        api-path: "/app/manage/reset_permissions"
+        request-body: |
+          server_id:${{ secrets.CLOUDWAYS_SERVER_ID }}
+          app_id:${{ secrets.CLOUDWAYS_APP_ID }}
+          ownership:sys_user
+
+    - uses: ./
+      with:
+        email: ${{ secrets.CLOUDWAYS_EMAIL }}
+        api-key: ${{ secrets.CLOUDWAYS_API_KEY }}
+        api-path: "/security/whitelisted"
+        request-body: |
+          server_id:${{ secrets.CLOUDWAYS_SERVER_ID }}
+          tab:sftp
+          ip:${{ env.cwsl_data_ip_list }}
+          type:sftp
+          ipPolicy:block_all
+
+    - uses: ./
+      with:
+        email: ${{ secrets.CLOUDWAYS_EMAIL }}
+        api-key: ${{ secrets.CLOUDWAYS_API_KEY }}
+        api-path: "/server/${{ secrets.CLOUDWAYS_SERVER_ID }}/diskUsage"
+        request-method: "GET"
+        request-response: |
+          operation_id:0
+        prefix: "cwsl_"
+
+    - name: Response
+      # env:
+        # cwResponse: ""
+      run: |
+        echo "cwsl_data_ip_list: $cwsl_data_ip_list"
+        echo "cwsl_operation_id: $cwsl_operation_id"
